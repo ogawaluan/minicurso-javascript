@@ -11,6 +11,6 @@ const WrapperCharacters = (css, children) => (`
 
 const wrapperCharacters = WrapperCharacters`
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     ${gueio + gueio + gueio}
 `

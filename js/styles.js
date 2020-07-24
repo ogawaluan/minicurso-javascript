@@ -16,6 +16,9 @@ const css =`<style>
     }
 
     #root {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         box-sizing: border-box;
         font-family: 'Press Start 2P', cursive;
         background-color: #3b3b98;
@@ -23,7 +26,8 @@ const css =`<style>
         min-width: 400px;
         height: 65vh;
         text-align: center;
-        padding-top: 4rem
+        padding-top: 4rem;
+        padding-bottom: 4rem;
     }
 </style>`
 
