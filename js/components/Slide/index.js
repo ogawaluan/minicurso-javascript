@@ -1,52 +1,111 @@
 const states = [true, false, false]
 
 function showItems(stateItems) {
-    const items = stateItems.map(state =>{
+    const item = (pos) => Item`
+    .item {
+        list-style: none;    
+        height: 50px;
+        width: 50px;
+        background-color: #EAB543;
+        transition: transform 100ms linear;
+        cursor: pointer;
+    }
+
+    ${`pos-${pos}`}
+`
+    
+    const itemActive = (pos) => Item`
+    .item.active {
+        transform: scale(1.2)
+    }
+
+    ${`active pos-${pos}`}
+`
+    
+    const items = stateItems.map((state, index) => {
         if (state) {
-            return itemActive
+            return itemActive(index + 1)
         }
-        return item
+        return item(index + 1)
     })
+    
     return items.join('')
 }
 
-function handleClick() {
-    console.log('click')
+function clearAction(action) {
+    action.classList.remove('second')
+    action.classList.remove('third')
 }
 
-const Action = (css) => (
-    `<li style="${css}"></li>`
-)
+function handleClick(event) {
+    const { target } = event
+    const allItems = document.querySelectorAll('.item')
+    const action = document.querySelector('.action')
+    
+    allItems.forEach(item => item.classList.remove('active'))
+    target.classList.add('active')
 
-const Item = (css) => (
-    `<li style="${css}" onclick="handleClick()"></li>`
-)
+    clearAction(action)
+    if (target.classList.contains('pos-2')) {
+        action.classList.add('second')
+    }
+
+    if (target.classList.contains('pos-3')) {
+        action.classList.add('third')
+    }
+
+}
+
+function createStyles(css) {
+    const head = document.querySelector("head")
+    const style = `
+        <style>${css}</style>
+    `
+
+    head.insertAdjacentHTML('beforeend', style)
+}
+
+const Action = (css) => {
+    createStyles(css)
+    
+    return (`<li class="action"></li>`)
+}
+
+const Item = (css, className) => {
+    createStyles(css)
+    
+    return (`<li class="item ${className}" onclick="handleClick(event)"></li>`)
+}
 
 const Slide = (css, content) => (
     `<ul style="${css}">${content}</ul>`
 )
 
-const action = Action`
-    list-style: none;
-    height: 40px;
-    width: 40px;
-    background-color: #f8efba;
-    position: absolute;
-    left: 5px
-`
-
 const item = Item`
-    list-style: none;    
-    height: 50px;
-    width: 50px;
-    background-color: #EAB543;
+    list-style: none;
+    height: calc(var(--line-height) * 3);
+    width: calc(var(--line-height) * 3);
+    background-color: var(--happy-color);
 `
 
-const itemActive = Item`
-    list-style: none;    
-    height: 50px;
-    width: 50px;
-    background-color: #EAB543;
+const action = Action`
+    .action {
+        list-style: none;
+        height: 40px;
+        width: 40px;
+        background-color: #f8efba;
+        position: absolute;
+        left: 5px;
+        transition: transform 300ms linear;
+    }
+
+    .action.second {
+        transform: translateX(194px) rotate(360deg);
+    }
+
+    .action.third {
+        transform: translateX(388px) rotate(720deg);
+    }
 `
 
 const slide = Slide`
@@ -60,5 +119,3 @@ const slide = Slide`
     margin-top: auto;
     ${showItems(states) + action}
 `
-
-
