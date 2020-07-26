@@ -37,6 +37,8 @@ function clearAction(action) {
     action.classList.remove('third')
 }
 
+
+
 function handleClick(event) {
     const { target } = event
     const allItems = document.querySelectorAll('.item')
@@ -46,12 +48,22 @@ function handleClick(event) {
     target.classList.add('active')
 
     clearAction(action)
+
+    if (target.classList.contains('pos-1')) {
+        action.classList.add('first')
+        document.getElementById("bird").style.visibility = "hidden";
+        document.getElementById("bird3").style.visibility = "hidden";
+    }
+    
     if (target.classList.contains('pos-2')) {
         action.classList.add('second')
+        document.getElementById("bird").style.visibility = "visible";
+        document.getElementById("bird3").style.visibility = "hidden";
     }
 
     if (target.classList.contains('pos-3')) {
         action.classList.add('third')
+        document.getElementById("bird3").style.visibility = "visible";
     }
 
 }
@@ -89,7 +101,7 @@ const item = Item`
 `
 
 const action = Action`
-    .action {
+    .action.first {
         list-style: none;
         height: 40px;
         width: 40px;
